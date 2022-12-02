@@ -26,6 +26,7 @@ start_hastighed = 600
 angle = 3
 tryk = False
 
+#vi opretter en classe funktion til vores projektiler som holde styr på vores variabler og metoder
 class projektil():
     def __init__(self, x, y):
         self.start_hastighed = 10
@@ -35,10 +36,7 @@ class projektil():
         self.pos = (x, y)
         self.tryk = False
         self.tid = 0
-
-
-        #jeg skal bruge en player position, den player positioun skal så være min start x og y værider for mit projektil
-
+#vi kan lave en funktion sem beskriver en retningsvektor der bestemmer projektilets retning og rute
     def update(self, delta_tid):
         #print(self.)
         if self.tryk:
@@ -48,12 +46,14 @@ class projektil():
             print(px,py)
             self.pos = (projektil_x, projektil_y)
 
+#vi laver en funktion som tegner vores projektil
     def draw(self):
         x, y = self.pos
         arcade.draw_circle_filled(x, y, 5, arcade.color.RED)
 
 
-
+#vi kan lave en class funktion der hedder GameWindow som holder styr på alle de variabler og moetoder vi
+#skal bruge til at definere og tegner vores player, boss, projektieler og så vidre
 class GameWindow(arcade.Window):
 
     def __init__(self, width, height, title):
@@ -67,10 +67,11 @@ class GameWindow(arcade.Window):
         self.projektil = None
         arcade.set_background_color(arcade.csscolor.GREY)
 
+#vi kan lave en funktion der tegner projektilet når mussen bliver trykket
     def on_mouse_press(self, x, y, button, modifiers):
         self.projektil = projektil(x, y)
 
-
+#så kan vi lave en funktion der laver hele vores scene og alle vores sprites
     def setup(self):
         self.player_list = arcade.SpriteList()
         self.wall_list = arcade.SpriteList(use_spatial_hash=True)
@@ -106,6 +107,8 @@ class GameWindow(arcade.Window):
             self.physics_engine = arcade.PhysicsEnginePlatformer(
                 self.player_sprite, self.wall_list, GRAVITY)
         pass
+
+# vi kan lave en masse if/elif statemetns som styre voeres bevægelse og affyrigs funktion
     def on_key_press(self, key, modifiers):
             if key == arcade.key.SPACE:
                 self.projektil.tryk = True
@@ -121,6 +124,8 @@ class GameWindow(arcade.Window):
             self.player_sprite.change_x = 0
         elif key == arcade.key.RIGHT:
             self.player_sprite.change_x = 0
+
+#endu en update funktion til at registere vores projektil og hvor det befinder sig, samt en physics engine der holder stør på vores charather
     def on_update(self, delta_time):
         self.physics_engine.update()
         if self.projektil:
@@ -131,19 +136,19 @@ class GameWindow(arcade.Window):
 
 
 
-
+#vi kan lave en funktion der tegner vores projektil efter det er blevet afyrret og tegner vores scene
     def on_draw(self):
         self.clear()
         self.scene.draw()
         if self.projektil:
             self.projektil.draw()
 
-
+#vi definere vores main funktion så den kalder de endividuelle information der er nødvendige for at køre koden
 def main():
     window = GameWindow(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
     window.setup()
     arcade.run()
 
-
+#til sidste laver vi et if state ment som køre vores main funktion
 if __name__ == "__main__":
     main()
