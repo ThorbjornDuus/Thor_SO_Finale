@@ -36,14 +36,16 @@ class projektil():
         self.pos = (x, y)
         self.tryk = False
         self.tid = 0
+        self.x = 0
+        self.y = 0
 #vi kan lave en funktion sem beskriver en retningsvektor der bestemmer projektilets retning og rute
     def update(self, delta_tid):
         #print(self.)
         if self.tryk:
             self.tid += delta_tid
-            projektil_x = start_hastighed * math.cos(self.angle) * self.tid + px
-            projektil_y = start_hastighed * math.sin(self.angle) * self.tid - 1 * 150 * self.tid ** 2 + py
-            print(px,py)
+            projektil_x = start_hastighed * math.cos(self.angle) * self.tid + self.x
+            projektil_y = start_hastighed * math.sin(self.angle) * self.tid - 1 * 150 * self.tid ** 2 + self.y
+            #print(px,py)
             self.pos = (projektil_x, projektil_y)
 
 #vi laver en funktion som tegner vores projektil
@@ -70,6 +72,8 @@ class GameWindow(arcade.Window):
 #vi kan lave en funktion der tegner projektilet når mussen bliver trykket
     def on_mouse_press(self, x, y, button, modifiers):
         self.projektil = projektil(x, y)
+        self.projektil.x = self.player_sprite.center_x
+        self.projektil.y = self.player_sprite.center_y
 
 #så kan vi lave en funktion der laver hele vores scene og alle vores sprites
     def setup(self):
@@ -130,9 +134,7 @@ class GameWindow(arcade.Window):
         self.physics_engine.update()
         if self.projektil:
             self.projektil.update(delta_time)
-        #print(self.player_sprite.center_x)
-        self.px = self.player_sprite.center_x
-        self.py = self.player_sprite.center_y
+
 
 
 
